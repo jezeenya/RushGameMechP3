@@ -9,6 +9,7 @@ public class SpawnManager : MonoBehaviour
     private float spawnRange = 10.0f;
     public int enemyCount;
     public int waveNumber = 1;
+    public int strongEnemiesToSpawn = (waveNumber + 1) / 2;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,15 +30,20 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    void SpawnEnemyWave(int enemiesToSpawn)
+    void SpawnEnemyWave(int baseEnemiesToSpawn)
     {
-        for (int i = 0; i < enemiesToSpawn; i++)
+        int normalEnemiesToSpawn = baseEnemiesToSpawn;
+        if (waveNumber % 2 == 1)
+        {
+            normalEnemiesToSpawn += 1;
+        }
+        for (int i = 0; i < normalEnemiesToSpawn; i++)
         {
             Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
 
         }
-
-        for (int i = 0; i < enemiesToSpawn; i++)
+        int strongEnemiesToSpawn = (waveNumber + 1) / 2;
+        for (int i = 0; i < strongEnemiesToSpawn; i++)
         {
             Instantiate(strongenemyPrefab, GenerateSpawnPosition(), strongenemyPrefab.transform.rotation);
 
