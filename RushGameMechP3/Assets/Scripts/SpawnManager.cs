@@ -3,13 +3,12 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;
-    public GameObject strongenemyPrefab;
+    public GameObject []enemyPrefabs;
     public GameObject powerupPrefab;
     private float spawnRange = 10.0f;
     public int enemyCount;
     public int waveNumber = 1;
-    public int strongEnemiesToSpawn = (waveNumber + 1) / 2;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,24 +29,17 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    void SpawnEnemyWave(int baseEnemiesToSpawn)
+    void SpawnEnemyWave(int enemiesToSpawn)
     {
-        int normalEnemiesToSpawn = baseEnemiesToSpawn;
-        if (waveNumber % 2 == 1)
+       
+   
+        for (int i = 0; i < enemiesToSpawn; i++)
         {
-            normalEnemiesToSpawn += 1;
-        }
-        for (int i = 0; i < normalEnemiesToSpawn; i++)
-        {
-            Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+            int randomEnemy = UnityEngine.Random.Range(0, enemyPrefabs.Length);
+            Instantiate(enemyPrefabs[randomEnemy], GenerateSpawnPosition(), enemyPrefabs[randomEnemy].transform.rotation);
 
         }
-        int strongEnemiesToSpawn = (waveNumber + 1) / 2;
-        for (int i = 0; i < strongEnemiesToSpawn; i++)
-        {
-            Instantiate(strongenemyPrefab, GenerateSpawnPosition(), strongenemyPrefab.transform.rotation);
-
-        }
+        
     }
     private Vector3 GenerateSpawnPosition()
     {
